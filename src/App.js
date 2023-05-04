@@ -3,22 +3,36 @@ import countryService from './services/countryService.js'
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
+function Countries({ countries }) {
+  return (
+    <>
+      <ul>
+        {countries.map((country, index) => (
+          <li key={index}>
+            {country.name.common}
+          </li>
+        ))}
+      </ul>
+    </>
+  )
+}
+
 function App() {
   const [countries, setCountries] = useState([])
-  const baseUrl = `https://restcountries.com/v3.1/all`
-  
-  useEffect(() => { 
-    axios.get(`${baseUrl}`).then((response)=>{
+
+  useEffect(() => {
+    const baseUrl = `https://restcountries.com/v3.1/all`
+    axios.get(`${baseUrl}`).then((response) => {
       const newCountries = response.data
       setCountries(newCountries)
-      console.log(countries )
     })
   }, []);
 
+
+
   return (
-    <div>
-
-
+    <div>  
+      <Countries countries={countries} />
     </div>
   );
 }
