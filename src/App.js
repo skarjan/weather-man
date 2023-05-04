@@ -19,7 +19,8 @@ function Countries({ countries }) {
 
 function App() {
   const [countries, setCountries] = useState([])
-
+  const [filter, setFilter] = useState([])
+  
   useEffect(() => {
     const baseUrl = `https://restcountries.com/v3.1/all`
     axios.get(`${baseUrl}`).then((response) => {
@@ -28,10 +29,14 @@ function App() {
     })
   }, []);
 
-
+ const handleFilterChange = (event) => {
+   setFilter(event.target.value)
+   console.log(filter)
+ }
 
   return (
     <div>  
+      <input value={filter} onChange={handleFilterChange}/>
       <Countries countries={countries} />
     </div>
   );
