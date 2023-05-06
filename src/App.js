@@ -19,8 +19,8 @@ function Countries({ countries }) {
 
 function App() {
   const [countries, setCountries] = useState([])
-  const [filter, setFilter] = useState([])
-  
+  const [filter, setFilter] = useState("")
+  const [filterResults, setFilterResults] = useState([])
   useEffect(() => {
     const baseUrl = `https://restcountries.com/v3.1/all`
     axios.get(`${baseUrl}`).then((response) => {
@@ -29,14 +29,20 @@ function App() {
     })
   }, []);
 
- const handleFilterChange = (event) => {
-   setFilter(event.target.value)
-   console.log(filter)
- }
+  const handleFilterChange = (event) => {
+    setFilter(event.target.value)
+    setFilterResults(
+      countries.filter((country) => 
+        country.name.common
+          .toLowerCase()
+          .includes(event.target.value.toLowerCase())
+      ))
+    console.log(filterResults)
+  }
 
   return (
-    <div>  
-      <input value={filter} onChange={handleFilterChange}/>
+    <div>
+      <input value={filter} onChange={handleFilterChange} />
       <Countries countries={countries} />
     </div>
   );
