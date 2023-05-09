@@ -3,9 +3,10 @@ import countryService from './services/countryService.js'
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-function Countries({ countries }) {
+function Countries({ countries, eventHandler, val }) {
   return (
     <>
+      <input value={val} onChange={eventHandler} />
       <ul>
         {countries.map((country, index) => (
           <li key={index}>
@@ -32,20 +33,28 @@ function App() {
   const handleFilterChange = (event) => {
     setFilter(event.target.value)
     setFilterResults(
-      countries.filter((country) => 
+      countries.filter((country) =>
         country.name.common
           .toLowerCase()
           .includes(event.target.value.toLowerCase())
-      ))
-    console.log(filterResults)
+          ))
+          console.log(filter.length > 0)
   }
-
+if (filter.length < 0) {
+  
   return (
-    <div>
-      <input value={filter} onChange={handleFilterChange} />
-      <Countries countries={countries} />
-    </div>
-  );
+    <>
+      <Countries countries={countries} eventHandler={handleFilterChange} val={filter}/>
+    </>
+    
+    );
+  } else {
+    return (
+      <>
+        <Countries countries={filterResults} eventHandler={handleFilterChange} val={filter}/>
+      </>
+      ); 
+  }
 }
 
 export default App;
